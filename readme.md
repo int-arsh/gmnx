@@ -1,5 +1,29 @@
 # gmnx
 
+<!-- Badges -->
+<p>
+  <a href="https://github.com/int-arsh/gmnx/actions">
+    <img alt="CI" src="https://img.shields.io/github/actions/workflow/status/int-arsh/gmnx/docker-publish.yml?branch=main&label=CI&logo=github" />
+  </a>
+  <a href="https://hub.docker.com/r/int-arsh/gmnx">
+    <img alt="Docker pulls" src="https://img.shields.io/docker/pulls/akashdocker303/gmnx.svg?logo=docker" />
+  </a>
+  <a href="https://hub.docker.com/r/int-arsh/gmnx">
+    <img alt="Image size" src="https://img.shields.io/docker/image-size/akashdocker303/gmnx/latest?logo=docker&label=image%20size" />
+  </a>
+  <a href="#license">
+    <img alt="License" src="https://img.shields.io/badge/license-MIT-green.svg" />
+  </a>
+</p>
+
+### What
+gmnx is a colorful, minimalist CLI that talks to Google Gemini to answer questions right inside your terminal.
+
+### Why
+- **Fast answers where you work**: no context switching to a browser.
+- **Beautiful output**: Markdown + syntax highlighting for easy reading.
+- **Zero setup for users**: pull a Docker image and run.
+
 A powerful, colorful, and easy-to-use command-line assistant powered by the Google Gemini API. Get instant help with commands, code snippets, and explanations directly in your terminal, without switching to a browser.
 
 The output is beautifully formatted with syntax highlighting, similar to the `bat` command, for maximum readability.
@@ -15,6 +39,33 @@ The output is beautifully formatted with syntax highlighting, similar to the `ba
 ## 🛠️ Setup and Installation
 
 Follow these steps to get the Gemini CLI Assistant running on your system.
+## ⚡ Quickstart (Docker)
+
+```bash
+docker pull YOUR_USERNAME/gmnx:latest
+docker run --rm -e GEMINI_API_KEY="$GEMINI_API_KEY" YOUR_USERNAME/gmnx:latest "say hello"
+```
+
+Prefer a pinned version:
+```bash
+docker run --rm -e GEMINI_API_KEY="$GEMINI_API_KEY" YOUR_USERNAME/gmnx:v1.0.0 "say hello"
+```
+
+Add a persistent Zsh alias:
+```bash
+echo "alias ask='docker run --rm -e GEMINI_API_KEY=\"$GEMINI_API_KEY\" YOUR_USERNAME/gmnx:latest'" >> ~/.zshrc
+source ~/.zshrc
+```
+
+
+
+---
+
+## 🎥 Demo
+
+![gmnx demo](docs/image.png)
+
+
 
 ### Prerequisites
 
@@ -124,9 +175,27 @@ docker run --rm -e GEMINI_API_KEY="$GEMINI_API_KEY" gmnx "explain the difference
 docker run --rm -e GEMINI_API_KEY="$GEMINI_API_KEY" -v "$PWD":/work -w /work gmnx "give me a one-liner to count lines"
 ```
 
-### Optional alias to use `ask` like a local command
+### Optional alias to use `ask` like a local command (Zsh)
+Add one of these to your `~/.zshrc` for a persistent alias:
+
 ```bash
-alias ask='docker run --rm -e GEMINI_API_KEY="$GEMINI_API_KEY" gmnx'
+# Use the Docker Hub image (auto-updated by CI)
+alias ask='docker run --rm -e GEMINI_API_KEY="$GEMINI_API_KEY" YOUR_USERNAME/gmnx:latest'
+
+# Pin to a specific version tag
+# alias ask='docker run --rm -e GEMINI_API_KEY="$GEMINI_API_KEY" YOUR_USERNAME/gmnx:v1.0.0'
+
+# Or use your local image name if you built locally
+# alias ask='docker run --rm -e GEMINI_API_KEY="$GEMINI_API_KEY" gmnx'
+```
+
+Reload your shell to apply:
+```bash
+source ~/.zshrc
+```
+
+Now you can run:
+```bash
 ask "how to list all running docker containers"
 ```
 
