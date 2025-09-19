@@ -44,16 +44,9 @@ python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-### Install Dependencies
+### Install Dependencies (local, optional)
 
-Create a requirements.txt file with the necessary Python packages.
-
-    requirements.txt:
-
-    google-genai
-    rich
-
-Now, install these packages using pip:
+If you prefer running locally without Docker:
 ```bash
 pip install -r requirements.txt
 ```
@@ -107,3 +100,71 @@ ask "write a python function that takes a list and returns a new list with only 
 https://ai.google.dev/gemini-api/docs/migrate#client \
 https://googleapis.github.io/python-genai/index.html \
 https://ai.google.dev/gemini-api/docs/pricing
+
+## 🐳 Docker
+
+### Why Docker?
+- Consistent environment (no local Python setup required)
+- Easy to share and run everywhere
+- Keeps your laptop clean and isolated
+
+### Build the image
+```bash
+docker build -t gmnx .
+```
+
+### Run the CLI via Docker
+Pass your API key at runtime and your question as args:
+```bash
+docker run --rm -e GEMINI_API_KEY="$GEMINI_API_KEY" gmnx "explain the difference between soft and hard links"
+```
+
+### Optional: mount current directory and set working dir
+```bash
+docker run --rm -e GEMINI_API_KEY="$GEMINI_API_KEY" -v "$PWD":/work -w /work gmnx "give me a one-liner to count lines"
+```
+
+### Optional alias to use `ask` like a local command
+```bash
+alias ask='docker run --rm -e GEMINI_API_KEY="$GEMINI_API_KEY" gmnx'
+ask "how to list all running docker containers"
+```
+
+## 🚀 Publish to Docker Hub (easy steps)
+
+### 1) Create a Docker Hub repo
+- Go to `https://hub.docker.com`, sign in, click "Create Repository".
+- Name it `gmnx` (final image name will be `YOUR_USERNAME/gmnx`).
+
+### 2) Create a Docker Hub access token
+- Docker Hub → Account Settings → Security → New Access Token.
+- Copy the token (you'll use it in GitHub).
+
+### 3) Add GitHub Secrets to your repo
+- On GitHub, open your repo → Settings → Secrets and variables → Actions → New repository secret.
+- Add two secrets:
+  - `DOCKERHUB_USERNAME` = your Docker Hub username
+  - `DOCKERHUB_TOKEN` = the access token you created
+
+### 4) Automatic builds via GitHub Actions
+- A workflow at `.github/workflows/docker-publish.yml` builds and pushes images:
+  - On push to `main`: tags `latest`
+  - On git tag (e.g. `v1.0.0`): tags `v1.0.0` (and keeps `latest` on default branch)
+
+### 5) Trigger a build
+```bash
+git add .
+git commit -m "setup: docker publish workflow"
+git push origin main
+```
+Then check GitHub → Actions for progress. When done, you can pull it:
+```bash
+docker pull YOUR_USERNAME/gmnx:latest
+```
+
+### 6) Create a versioned release (optional)
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+This publishes `YOUR_USERNAME/gmnx:v1.0.0`.
