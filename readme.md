@@ -5,10 +5,10 @@
   <a href="https://github.com/int-arsh/gmnx/actions">
     <img alt="CI" src="https://img.shields.io/github/actions/workflow/status/int-arsh/gmnx/docker-publish.yml?branch=main&label=CI&logo=github" />
   </a>
-  <a href="https://hub.docker.com/r/int-arsh/gmnx">
+  <a href="https://hub.docker.com/r/akashdocker303/gmnx">
     <img alt="Docker pulls" src="https://img.shields.io/docker/pulls/akashdocker303/gmnx.svg?logo=docker" />
   </a>
-  <a href="https://hub.docker.com/r/int-arsh/gmnx">
+  <a href="https://hub.docker.com/r/akashdocker303/gmnx">
     <img alt="Image size" src="https://img.shields.io/docker/image-size/akashdocker303/gmnx/latest?logo=docker&label=image%20size" />
   </a>
   <a href="#license">
@@ -16,224 +16,237 @@
   </a>
 </p>
 
-### What
-gmnx is a colorful, minimalist CLI that talks to Google Gemini to answer questions right inside your terminal.
+> A powerful, colorful, and easy-to-use command-line assistant powered by Google Gemini API. Get instant help with commands, code snippets, and explanations directly in your terminal.
 
-### Why
-- **Fast answers where you work**: no context switching to a browser.
-- **Beautiful output**: Markdown + syntax highlighting for easy reading.
-- **Zero setup for users**: pull a Docker image and run.
+## ✨ Features
 
-A powerful, colorful, and easy-to-use command-line assistant powered by the Google Gemini API. Get instant help with commands, code snippets, and explanations directly in your terminal, without switching to a browser.
+- 🚀 **Zero Setup**: Pull a Docker image and run - no Python installation required
+- 🎨 **Beautiful Output**: Rich Markdown formatting with syntax highlighting
+- 🔒 **Secure**: API keys passed at runtime, never baked into images
+- 🐳 **Containerized**: Consistent experience across all platforms
+- ⚡ **Fast**: Optimized for command-line workflows
+- 🧪 **Well Tested**: Comprehensive test suite with CI/CD integration
 
-The output is beautifully formatted with syntax highlighting, similar to the `bat` command, for maximum readability.
+## ⚡ Quickstart
 
-## Features
-
--   **Direct Terminal Access:** Get help where you need it most—your command line.
--   **Rich, Colorful Output:** Uses the `rich` library to parse Markdown and provide syntax highlighting for code blocks.
--   **Expert System Prompt:** Engineered to provide concise, accurate, and relevant answers for a command-line environment.
--   **Modern Python SDK:** Built with the latest `google-genai` SDK for Python.
--   **Simple & Secure:** Easy to set up with an alias. Securely uses an environment variable for your API key.
-
-## 🛠️ Setup and Installation
-
-Follow these steps to get the Gemini CLI Assistant running on your system.
-## ⚡ Quickstart (Docker)
+### Docker (Recommended)
 
 ```bash
-docker pull YOUR_USERNAME/gmnx:latest
-docker run --rm -e GEMINI_API_KEY="$GEMINI_API_KEY" YOUR_USERNAME/gmnx:latest "say hello"
-```
+# Pull and run
+docker run --rm -e GEMINI_API_KEY="$GEMINI_API_KEY" akashdocker303/gmnx:latest "explain Docker vs Kubernetes"
 
-Prefer a pinned version:
-```bash
-docker run --rm -e GEMINI_API_KEY="$GEMINI_API_KEY" YOUR_USERNAME/gmnx:v1.0.0 "say hello"
-```
-
-Add a persistent Zsh alias:
-```bash
-echo "alias ask='docker run --rm -e GEMINI_API_KEY=\"$GEMINI_API_KEY\" YOUR_USERNAME/gmnx:latest'" >> ~/.zshrc
+# Add persistent alias
+echo 'alias ask="docker run --rm -e GEMINI_API_KEY=\"$GEMINI_API_KEY\" akashdocker303/gmnx:latest"' >> ~/.zshrc
 source ~/.zshrc
+
+# Use it
+ask "how to find all files larger than 100MB"
 ```
 
+### Local Development
 
+```bash
+# Clone and setup
+git clone https://github.com/int-arsh/gmnx.git
+cd gmnx
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 
----
+# Run
+export GEMINI_API_KEY="your-api-key"
+python ask.py "hello world"
+```
 
 ## 🎥 Demo
 
 ![gmnx demo](docs/image.png)
 
+*Terminal recording showing gmnx in action*
 
+## 📋 Prerequisites
 
-### Prerequisites
+- **Docker** (for containerized usage) or **Python 3.12+** (for local development)
+- **Google Gemini API Key** - Get one from [Google AI Studio](https://aistudio.google.com/app/apikey)
 
--   Python 3.x 
--   A Google Gemini API Key. You can get one from [Google AI Studio](https://aistudio.google.com/app/apikey).
+## 🛠️ Development
 
-### 1. Clone the Repository
+### Project Structure
 
-If you have uploaded the project to GitHub, clone it to your local machine.
-
-```bash
-git clone [https://github.com/your-username/gemini-cli-tool.git](https://github.com/your-username/gemini-cli-tool.git)
-cd gemini-cli-tool
+```
+gmnx/
+├── ask.py                 # Main CLI application
+├── Dockerfile            # Container definition
+├── requirements.txt      # Python dependencies
+├── tests/               # Test suite
+│   ├── test_ask.py      # Unit tests
+│   └── test_docker.py   # Integration tests
+├── .github/workflows/   # CI/CD pipeline
+└── docs/               # Documentation
 ```
 
-If you are just setting it up locally, simply navigate to your project directory.
-2. Create and Activate a Virtual Environment
-
-It is highly recommended to use a virtual environment to manage project dependencies.
-
-### Create the virtual environment
-```bash
-python3 -m venv .venv
-```
-### Activate it
-```bash
-source .venv/bin/activate
-```
-
-### Install Dependencies (local, optional)
-
-If you prefer running locally without Docker:
-```bash
-pip install -r requirements.txt
-```
-### Make the Script Executable
-
-This step gives your system permission to run the ask.py file as a program.
-```bash
-chmod +x ask.py
-```
-### Set Your API Key and Alias
-
-To make the tool accessible from anywhere, you need to set an environment variable for your API key and create a command-line alias.
-
-Open your shell's configuration file (e.g., ~/.bashrc, ~/.zshrc):
-```bash
-nano ~/.bashrc
-```
-Add the following lines to the end of the file. Remember to replace your_api_key_here with your actual key and update the path to your script.
+### Running Tests
 
 ```bash
-# Gemini CLI Assistant
-export GEMINI_API_KEY='your_api_key_here'
-alias ask='/path/to/your/project/gemini-cli-tool/ask.py'
+# Install dependencies
+make install-deps
+
+# Run all tests
+make test
+
+# Run with coverage
+make test-coverage
+
+# Quick unit tests only
+make test-unit
 ```
 
-Save the file and reload your shell configuration:
+### Building Docker Image
 
 ```bash
-source ~/.bashrc
+# Build locally
+make build
+
+# Run tests
+make test-docker
 ```
 
-## Usage
+## 🚀 CI/CD Pipeline
 
-You can now use the ask command directly in your terminal. Just wrap your question in quotes.
-Examples
+This project uses GitHub Actions for automated testing and deployment:
 
-Get a Linux command:
-```bash
-ask "how to find all files larger than 50MB in my home directory"
-```
-Explain a concept:
-```bash
-ask "explain the difference between a soft link and a hard link"
-```
-Get a code snippet:
-```bash
-ask "write a python function that takes a list and returns a new list with only the even numbers"
-```
+- **On every push to `main`**: Runs tests and builds Docker image
+- **On git tags**: Creates versioned releases
+- **Automated Docker Hub publishing**: Images pushed automatically
 
-## You can Read 
-https://ai.google.dev/gemini-api/docs/migrate#client \
-https://googleapis.github.io/python-genai/index.html \
-https://ai.google.dev/gemini-api/docs/pricing
+### Pipeline Stages
 
-## 🐳 Docker
+1. **Test** - Unit tests and Docker integration tests
+2. **Build** - Multi-arch Docker image creation
+3. **Push** - Automatic publishing to Docker Hub
+
+## 🐳 Docker Details
 
 ### Why Docker?
-- Consistent environment (no local Python setup required)
-- Easy to share and run everywhere
-- Keeps your laptop clean and isolated
 
-### Build the image
-```bash
-docker build -t gmnx .
-```
+- **Consistency**: Same environment everywhere
+- **Isolation**: No conflicts with local Python setup
+- **Distribution**: Easy sharing and deployment
+- **Security**: API keys at runtime, not in images
 
-### Run the CLI via Docker
-Pass your API key at runtime and your question as args:
-```bash
-docker run --rm -e GEMINI_API_KEY="$GEMINI_API_KEY" gmnx "explain the difference between soft and hard links"
-```
+### Image Variants
 
-### Optional: mount current directory and set working dir
-```bash
-docker run --rm -e GEMINI_API_KEY="$GEMINI_API_KEY" -v "$PWD":/work -w /work gmnx "give me a one-liner to count lines"
-```
+- `akashdocker303/gmnx:latest` - Latest stable version
+- `akashdocker303/gmnx:v1.0.0` - Pinned version releases
 
-### Optional alias to use `ask` like a local command (Zsh)
-Add one of these to your `~/.zshrc` for a persistent alias:
+### Advanced Usage
 
 ```bash
-# Use the Docker Hub image (auto-updated by CI)
-alias ask='docker run --rm -e GEMINI_API_KEY="$GEMINI_API_KEY" YOUR_USERNAME/gmnx:latest'
+# Mount current directory for file operations
+docker run --rm -e GEMINI_API_KEY="$GEMINI_API_KEY" \
+  -v "$PWD":/work -w /work \
+  akashdocker303/gmnx:latest "analyze this code"
 
-# Pin to a specific version tag
-# alias ask='docker run --rm -e GEMINI_API_KEY="$GEMINI_API_KEY" YOUR_USERNAME/gmnx:v1.0.0'
-
-# Or use your local image name if you built locally
-# alias ask='docker run --rm -e GEMINI_API_KEY="$GEMINI_API_KEY" gmnx'
+# Use specific version
+docker run --rm -e GEMINI_API_KEY="$GEMINI_API_KEY" \
+  akashdocker303/gmnx:v1.0.0 "help me debug this"
 ```
 
-Reload your shell to apply:
+## 🧪 Testing Strategy
+
+### Test Coverage
+
+- **Unit Tests**: CLI logic, error handling, API mocking
+- **Integration Tests**: Docker container functionality
+- **CI/CD Tests**: Automated testing on every commit
+
+### Test Commands
+
 ```bash
-source ~/.zshrc
+# All tests
+make test
+
+# Unit tests only
+make test-unit
+
+# Docker tests only
+make test-docker
+
+# Coverage report
+make test-coverage
 ```
 
-Now you can run:
+## 📚 Usage Examples
+
+### Command Line Help
+
 ```bash
-ask "how to list all running docker containers"
+ask "how to list all running Docker containers"
+ask "explain the difference between soft and hard links"
+ask "write a Python function to reverse a string"
+ask "debug this error: ModuleNotFoundError"
 ```
 
-## 🚀 Publish to Docker Hub (easy steps)
+### Programming Questions
 
-### 1) Create a Docker Hub repo
-- Go to `https://hub.docker.com`, sign in, click "Create Repository".
-- Name it `gmnx` (final image name will be `YOUR_USERNAME/gmnx`).
-
-### 2) Create a Docker Hub access token
-- Docker Hub → Account Settings → Security → New Access Token.
-- Copy the token (you'll use it in GitHub).
-
-### 3) Add GitHub Secrets to your repo
-- On GitHub, open your repo → Settings → Secrets and variables → Actions → New repository secret.
-- Add two secrets:
-  - `DOCKERHUB_USERNAME` = your Docker Hub username
-  - `DOCKERHUB_TOKEN` = the access token you created
-
-### 4) Automatic builds via GitHub Actions
-- A workflow at `.github/workflows/docker-publish.yml` builds and pushes images:
-  - On push to `main`: tags `latest`
-  - On git tag (e.g. `v1.0.0`): tags `v1.0.0` (and keeps `latest` on default branch)
-
-### 5) Trigger a build
 ```bash
-git add .
-git commit -m "setup: docker publish workflow"
-git push origin main
-```
-Then check GitHub → Actions for progress. When done, you can pull it:
-```bash
-docker pull YOUR_USERNAME/gmnx:latest
+ask "show me a React component with hooks"
+ask "how to implement binary search in Python"
+ask "explain Docker networking concepts"
 ```
 
-### 6) Create a versioned release (optional)
+### System Administration
+
 ```bash
-git tag v1.0.0
-git push origin v1.0.0
+ask "how to monitor disk usage on Linux"
+ask "set up a reverse proxy with nginx"
+ask "troubleshoot slow database queries"
 ```
-This publishes `YOUR_USERNAME/gmnx:v1.0.0`.
+
+## 🔧 Configuration
+
+### Environment Variables
+
+- `GEMINI_API_KEY` - Required. Your Google Gemini API key
+
+### Shell Integration
+
+Add to your `~/.zshrc` or `~/.bashrc`:
+
+```bash
+# Docker version (recommended)
+alias ask='docker run --rm -e GEMINI_API_KEY="$GEMINI_API_KEY" akashdocker303/gmnx:latest'
+
+# Local version
+alias ask='python3 /path/to/gmnx/ask.py'
+```
+
+## 🤝 Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+
+### Development Workflow
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🔒 Security
+
+Security vulnerabilities should be reported privately. See [SECURITY.md](SECURITY.md) for details.
+
+## 📖 Additional Resources
+
+- [Google Gemini API Documentation](https://ai.google.dev/gemini-api/docs)
+- [Docker Documentation](https://docs.docker.com/)
+- [Python Testing Guide](https://docs.python.org/3/library/unittest.html)
+
+---
+
+**Made with ❤️ for the DevOps community**

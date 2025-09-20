@@ -1,10 +1,28 @@
 # Virtual Environment
 .venv/
+venv/
+ENV/
+env/
 
 # Python cache
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 .save
+
+# Testing
 htmlcov/
 .coverage
 .pytest_cache/
+.tox/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
