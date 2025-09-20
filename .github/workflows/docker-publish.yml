@@ -23,13 +23,13 @@ jobs:
           pip install -r requirements.txt
       
       - name: Run unit tests
-        run: make test-unit
+        run: python -m pytest tests/test_ask.py -v
       
       - name: Build Docker image for testing
-        run: make build
+        run: docker build -t test-gmnx .
       
       - name: Run Docker tests
-        run: make test-docker
+        run: python -m pytest tests/test_docker.py -v
 
   build-and-push:
     runs-on: ubuntu-latest

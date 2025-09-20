@@ -2,8 +2,9 @@ SHELL := /usr/bin/env bash
 
 # Python and Docker settings
 VENV := .venv
-PYTHON := $(VENV)/bin/python
-PIP := $(VENV)/bin/pip
+# Use venv if it exists, otherwise use system python
+PYTHON := $(if $(wildcard $(VENV)/bin/python),$(VENV)/bin/python,python3)
+PIP := $(if $(wildcard $(VENV)/bin/pip),$(VENV)/bin/pip,pip3)
 DOCKER_IMAGE := test-gmnx
 DOCKER_TAG := latest
 
