@@ -1,3 +1,6 @@
 google-genai
 rich
+pytest
+pytest-mock
+pytest-cov
 

@@ -5,3 +5,6 @@
 __pycache__/
 *.pyc
 .save
+htmlcov/
+.coverage
+.pytest_cache/
